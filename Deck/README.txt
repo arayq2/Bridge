@@ -28,7 +28,7 @@ These two arrays can be combined into a consolidated 13-array of 5-arrays, with 
 
 (strictly speaking, the leader array can be reconstructed from the trick array and the initial full layout.)
 
-Note that a 0 in the trick array can't be the SA unless slot 0 in the layout array is 0 (i,e. "already played".) 
+Note that a 0 in the trick array can't be the SA unless slot 0 in the layout array is 0 (i.e., "already played".) 
 
 
 2.  External format.
@@ -44,5 +44,5 @@ This string can also function as a unique index, as it is in fact a full informa
 
 3. Layout for visibility.
 
-A third format is suitable for display purposes, and for translations to other external formats.  The essential data structure is a 4-array (seats) of 4-arrays (suits) of 14-arrays of char (cards). The seats and suits are in canonical order (WNES and SHDC respectively.) See Deal.h.
+A third format is suitable for display purposes, and for translations to other external formats.  The essential data structure is a 4-array (seats) of 4-arrays (suits) of 14-arrays of char (cards). The seats and suits are in canonical order (WNES and SHDC respectively.) There are thus 16 holdings as strings. See Deal.h.
 
