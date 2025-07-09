@@ -26,6 +26,9 @@ namespace Stomp
         bool        isQ_;
 
         char const* prefix() const { return isQ_? "/queue/" : "/topic/"; }
+
+        char const* str() const { return dest_.c_str(); }
+        operator std::string() { return dest_; }
     };
 
     struct EPComparator
