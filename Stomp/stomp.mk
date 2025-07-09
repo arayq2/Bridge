@@ -1,7 +1,7 @@
 
 PROGRAMS := Sender ReceiverSync ReceiverAsync Socktest
 
-VPATH = ../Stomp
+VPATH = ../Stomp ../Utility
 
 CXX = g++
 CXXFLAGS = -pthread -m64 -std=c++14 -Wall
@@ -9,7 +9,7 @@ INCLUDES = ../Utility
 STOMPOBJS = Stomp.o StompAgent.o
 
 .cpp.o:
-	$(CXX) -o $@ $(CXXFLAGS) $(INCLUDES) -c $<
+	$(CXX) -o $@ $(CXXFLAGS) -I $(INCLUDES) -c $<
 
 all: $(PROGRAMS)
 
