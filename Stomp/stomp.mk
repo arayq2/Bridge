@@ -6,7 +6,7 @@ VPATH = ../Stomp ../Utility
 CXX = g++
 CXXFLAGS = -pthread -m64 -std=c++14 -Wall
 INCLUDES = ../Utility
-STOMPOBJS = Stomp.o StompAgent.o
+STOMPOBJS = StompImpl.o StompAgent.o
 
 .cpp.o:
 	$(CXX) -o $@ $(CXXFLAGS) -I $(INCLUDES) -c $<
