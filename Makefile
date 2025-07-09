@@ -1,12 +1,13 @@
 
+# Skeleton make file. This is a WIP.
 
 all : deck
 
 deck:
-	export NLOHMANN="../Utility"
-	cd Deck; $(MAKE) -f ./deck.mk
+	mkdir -p build
+	cd build; $(MAKE) -f ../Deck/deck.mk
 
 clean :
-	cd Deck; $(MAKE) clean -f ./deck.mk
+	cd build; $(MAKE) clean -f ../Deck/deck.mk
 
 .PHONY: all

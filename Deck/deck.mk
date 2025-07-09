@@ -8,7 +8,7 @@ CXX = g++
 CXXFLAGS = -g -pthread -m64 -std=c++14 -Wall
 
 # Need to set this in the environment
-INCLUDES = -I $(NLOHMANN)
+INCLUDES = -I ../Utility
 
 .cpp.o:
 	$(CXX) $(CXXFLAGS) $(INCLUDES) -c $< -o $@
