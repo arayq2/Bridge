@@ -5,7 +5,7 @@ PROGRAMS := SeeDeal SeeFmt ToHex ToPbn ToLin
 VPATH = ../Deck
 
 CXX = g++
-CXXFLAGS = -g -pthread -m64 -std=c++14 -Wall
+CXXFLAGS = -pthread -m64 -std=c++14 -Wall
 
 # Need to set this in the environment
 INCLUDES = -I ../Utility
