@@ -46,7 +46,6 @@ namespace
     struct Socket
     {
         int             fd_{0};
-        ::sockaddr_in   addr_{0};
         // other stuff
         ~Socket() noexcept;
         Socket();
@@ -69,11 +68,11 @@ namespace
     bool
     Socket::connect_( int port, unsigned long host )
     {
-        ::memset( &addr_, 0, sizeof(addr_) );
-        addr_.sin_family      = AF_INET;
-        addr_.sin_port        = htons( (unsigned short)port );
-        addr_.sin_addr.s_addr = host;
-        return ::connect( fd_, (sockaddr*) &addr_, sizeof(addr_) ) == 0;
+        ::sockaddr_in   _addr{0};
+        _addr.sin_family      = AF_INET;
+        _addr.sin_port        = htons( (unsigned short)port );
+        _addr.sin_addr.s_addr = host;
+        return ::connect( fd_, (sockaddr*) &_addr, sizeof(_addr) ) == 0;
     }
 
     bool
