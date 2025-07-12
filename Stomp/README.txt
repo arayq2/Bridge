@@ -1,5 +1,5 @@
 
-STOMP.
+STOMP (Streaming Text Oriented Messaging Protocol).
 
 1.  An incomplete implementation of the STOMP v.1.1 protocol.
 
@@ -15,9 +15,9 @@ STOMP.
 
 3.  Fine grained reception from multiple sources.
 
-    See Feeder.h. It uses a local queue to offload messages from the Stomp dispatch thread. Subscriptions are "tagged" with bespoke information that is echoed in the callback from the local queue.
+See Feeder.h. It uses a local queue to offload messages from the Stomp dispatch thread. Subscriptions are "tagged" with bespoke information that is echoed in the callback from the local queue.
 
 
 4.  Servlet style interface.
 
-    See Servlet.h. This encapsulates the connection setup and calls the provided "servlet" callback synchronously along with an interface to the send side.
+See Servlet.h. This encapsulates the connection setup and calls the provided "servlet" callback synchronously along with an interface to the send side.

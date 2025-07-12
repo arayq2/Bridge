@@ -25,13 +25,15 @@ namespace Stomp
         std::string dest_;
         bool        isQ_;
 
+        struct Comparator; // for sorting
+
         char const* prefix() const { return isQ_? "/queue/" : "/topic/"; }
 
         char const* str() const { return dest_.c_str(); }
         operator std::string() { return dest_; }
     };
 
-    struct EPComparator
+    struct EndPoint::Comparator
     {
         bool operator()( EndPoint const& lhs, EndPoint const& rhs ) const
         {
@@ -76,7 +78,7 @@ namespace Stomp
         using Mutex   = std::mutex;
         using Id      = std::atomic<int>;
         using Pair    = std::pair<Callback, int>;
-        using Readers = std::map<EndPoint const, Pair, EPComparator>;
+        using Readers = std::map<EndPoint const, Pair, EndPoint::Comparator>;
         using Worker  = std::thread;
         using Boolean = std::atomic<bool>;
 
