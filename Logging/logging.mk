@@ -5,7 +5,7 @@ VPATH := ../Logging
 
 CXX=g++
 
-CXXFLAGS= -fPIC -O3
+CXXFLAGS= -fPIC -pthread -m64 -std=c++14 -Wall
 
 INCLUDES= -I ../Utility
 
