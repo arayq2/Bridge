@@ -1,16 +1,18 @@
 #
 #
 
-VPATH = ../Utility
+VPATH := ../Utility ../Logging
 
 CXX=g++
 
 CXXFLAGS= -fPIC -O3
 
-OBJS = Logging.o LogImplStub.o
+INCLUDES= -I ../Utility
 
-%.o: %.c
-	$(CXX) $(CXXFLAGS) -c -o $@ $<
+OBJS := Logging.o LogImplStub.o
+
+%.o: %.cpp
+	$(CXX) $(CXXFLAGS) $(INCLUDES) -c -o $@ $<
 
 all: liblogging.a
 
