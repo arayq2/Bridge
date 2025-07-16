@@ -1,7 +1,7 @@
 
 # Skeleton make file. This is a WIP.
 
-all : stomp deck
+all : logging stomp deck scoring
 
 stomp:
 	mkdir -p build
@@ -23,5 +23,6 @@ clean :
 	cd build; $(MAKE) clean -f ../Stomp/stomp.mk
 	cd build; $(MAKE) clean -f ../Deck/deck.mk
 	cd build; $(MAKE) clean -f ../Scoring/scoring.mk
+	cd build; $(MAKE) clean -f ../Logging/logging.mk
 
-.PHONY: all
+.PHONY: all clean

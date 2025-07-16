@@ -1,7 +1,7 @@
 #
 #
 
-VPATH := ../Utility ../Logging
+VPATH := ../Logging
 
 CXX=g++
 
@@ -19,4 +19,7 @@ all: liblogging.a
 liblogging.a : $(OBJS)
 	ar cr liblogging.a $(OBJS)
 
-.PHONY: all
+clean:
+	rm -f liblogging.a $(OBJS)
+
+.PHONY: all clean
