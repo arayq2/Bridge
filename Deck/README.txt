@@ -41,6 +41,7 @@ This string can also function as a unique index, as it is in fact a full informa
 
 (Since the number of possible deals is a tad under 2^96, we would need at least 12 bytes for any full information representation. In that light, an easily processable 13 byte representation is quite compact.)
 
+[Note that this format can be extended to include a trailing (or leading) dealer-and-vulnerability indicator: a hyphen separator and a hex digit encoding the 16 possible combinations (with 0 corresponding to the 16th in standard order, dealer West and E/W vulnerable).]
 
 3. Layout for visibility.
 
