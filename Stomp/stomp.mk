@@ -1,5 +1,5 @@
 
-PROGRAMS := Sender ReceiverSync ReceiverAsync Socktest
+PROGRAMS := Sender ReceiverSync ReceiverAsync Socktest Echo
 
 VPATH = ../Stomp ../Utility
 
@@ -13,21 +13,26 @@ STOMPOBJS = StompImpl.o StompAgent.o
 
 all: $(PROGRAMS)
 
+libstomp.a: $(STOMPOBJS)
+	ar cr libstomp.a $^
 
-Sender: Sender.o StrFile.o $(STOMPOBJS)
+Sender: Sender.o StrFile.o libstomp.a
 	$(CXX) -o $@ $^
 
-ReceiverSync: ReceiverSync.o $(STOMPOBJS)
+ReceiverSync: ReceiverSync.o libstomp.a
 	$(CXX) -o $@ $^
 
-ReceiverAsync: ReceiverAsync.o $(STOMPOBJS)
+ReceiverAsync: ReceiverAsync.o libstomp.a
 	$(CXX) -o $@ $^
 
-Socktest: Socktest.o $(STOMPOBJS)
+Socktest: Socktest.o libstomp.a
+	$(CXX) -o $@ $^
+
+Echo: Echo.o libstomp.a
 	$(CXX) -o $@ $^
 
 clean:
-	rm -f $(PROGRAMS) *.o
+	rm -f $(PROGRAMS) libstomp.a *.o
 
 
 .PHONY: all clean

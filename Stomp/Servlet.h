@@ -15,6 +15,9 @@
 #include <utility>
 #include <memory>
 
+namespace Stomp
+{
+
     /**
      * @class ServletMethods
      * @brief Policy class for template method pattern.
@@ -37,9 +40,9 @@
         }
 
         static void
-        on_message( Client* cp, nlohmann::json& event, std::string const& info, Publisher& publisher )
+        on_message( Client* cp, std::string const& message, EndPoint const& info, Publisher& publisher )
         {
-            cp->on_message( event, info, publisher );
+            cp->on_message( message, info, publisher );
         }
 
         static void
@@ -52,7 +55,6 @@
     /**
      * @class Servlet
      * @brief class for servlet pattern.
-     * Payloads are assumed to be JSON strings.
      */
     template<typename Client, typename Methods = ServletMethods<Client>>
     class Servlet
@@ -60,16 +62,16 @@
     public:
         ~Servlet() {}
 
-        Servlet(Stomp::StompAgent& agent, Client& client, Stomp::EndPoint const& state, bool purge = false)
+        Servlet(StompAgent& agent, Client& client, EndPoint const& state)
         : agent_(agent)
         , cp_(&client)
-        , publisher_(agent_, state, purge)
+        , publisher_(agent_, state)
         {
             Methods::on_init( cp_, publisher_ );
         }
 
-        Servlet(Stomp::StompAgent& agent, Client& client, Stomp::EndPoint const& state, Stomp::EndPoint const& event, bool purgeState = false)
-        : Servlet(agent, client, state, purgeState)
+        Servlet(StompAgent& agent, Client& client, EndPoint const& state, EndPoint const& event)
+        : Servlet(agent, client, state)
         {
             subscribe( event );
         }
@@ -79,30 +81,18 @@
             Methods::on_start( cp_, publisher_ );
         }
 
-        //!> parse text into JSON object and pass to client
-        void on_message( std::string const& msg, Stomp::EndPoint const& info )
+        void on_message( std::string const& msg, EndPoint const& info )
         {
-            try {
-                auto    _evt(nlohmann::json::parse( msg ));
-                Methods::on_message( cp_, _evt, info.dest_, publisher_ );
-            }
-            catch ( nlohmann::json::parse_error const& e )
-            {
-                Methods::on_error( cp_, msg, e.what(), publisher_ );
-            }
+            Methods::on_message( cp_, msg, info, publisher_ );
         }
 
         void subscribe( std::string const& topic, bool isQueue )
         {
-            subscribe( Stomp::EndPoint{topic, isQueue} );
+            subscribe( EndPoint{topic, isQueue} );
         }
-        void subscribe( ams::EndPoint const& ep )
+        void subscribe( EndPoint const& ep )
         {
-            subscribe( Stomp::EndPoint{ep.dest_, !ep.isTopic_} );
-        }
-        void subscribe( Stomp::EndPoint const& ep )
-        {
-            agent_.subscribe( ep, Stomp::make_callback(&Servlet::on_message, this) ); //!< may cause delivery of cached message
+            agent_.subscribe( ep, make_callback(&Servlet::on_message, this) ); //!< may cause delivery of cached message
         }
         // STOMP has no protocol to manage brokers (no release functionality)
         bool unsubscribe( std::string const& target, bool isQueue = false, bool release = false )
@@ -111,12 +101,14 @@
         }
 
     private:
-        Stomp::StompAgent&  agent_;
-        Client*             cp_;
-        TPublisher          publisher_; // topic target by default
+        StompAgent&     agent_;
+        Client*         cp_;
+        TPublisher      publisher_; // topic target by default
 
         Servlet(Servlet const&) = delete;
         Servlet& operator=( Servlet const& ) = delete;
     };
+
+} // namespace Stomp
 
 #endif // STOMP_SERVLET_H

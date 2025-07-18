@@ -20,4 +20,4 @@ See Feeder.h. It uses a local queue to offload messages from the Stomp dispatch 
 
 4.  Servlet style interface.
 
-See Servlet.h. This encapsulates the connection setup and calls the provided "servlet" callback synchronously along with an interface to the send side.
+See Servlet.h. This encapsulates the connection setup and calls the provided "servlet" callback synchronously along with an interface to the send side. See Echo.cpp for a simplistic example of usage.

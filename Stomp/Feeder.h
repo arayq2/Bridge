@@ -13,6 +13,8 @@
 
 #include <unordered_map>
     
+namespace Stomp
+{
     /**
      * @file Feeder.h
      * @brief Generic input system using local queue buffering.
@@ -39,19 +41,20 @@
         //
         using Queue    = Utility::LocalQueue<Handler>;
         using Map      = std::unordered_map<std::string, Info>;
+
     public:
         ~Feeder() noexcept { stop_(); }
-        Feeder(Stomp::StompAgent& agent, Client* client)
+        Feeder(StompAgent& agent, Client* client)
         : agent_(agent)
         , queue_(client)
         {}
 
         void subscribe( std::string const& topic, Info const& info, bool release = false )
         {
-            subscribe( Stomp::EndPoint{topic, false}, info, release );
+            subscribe( EndPoint{topic, false}, info, release );
         }
 
-        void subscribe( Stomp::EndPoint const& ep, Info const& info, bool release = false )
+        void subscribe( EndPoint const& ep, Info const& info, bool release = false )
         {
             if ( ep.isQ_ )
             {
@@ -61,27 +64,27 @@
             {
                 tmap_.insert( {ep.dest_, info} );
             }
-            agent_.subscribe( {ep.dest_, ep.isQ_}, Stomp::make_callback( &Feeder::on_message, this ) );
+            agent_.subscribe( {ep.dest_, ep.isQ_}, make_callback( &Feeder::on_message, this ) );
         }
 
-        void unsubscribe( Stomp::EndPoint const& ep, bool release = false )
+        void unsubscribe( EndPoint const& ep, bool release = false )
         {
             agent_.unsubscribe( {ep.dest_, ep.isQ_} );
             ep.isQ_ ? qmap_.erase( ep.dest_ ) : tmap_.erase( ep.dest_ );
         }
 
         //!> also the entry point for internal event queueing
-        void on_message( std::string const& msg, Stomp::EndPoint const& source )
+        void on_message( std::string const& msg, EndPoint const& source )
         {
             Info    _info(source.isQ_ ? qmap_[source.dest_] : tmap_[source.dest_]);                
             queue_.put( {msg, _info} );
         }
 
     private:
-        Stomp::StompAgent&  agent_;
-        Queue               queue_;
-        Map                 tmap_;
-        Map                 qmap_;
+        StompAgent&     agent_;
+        Queue           queue_;
+        Map             tmap_;
+        Map             qmap_;
 
         void stop_() noexcept
         {
@@ -89,5 +92,7 @@
             for ( auto& _item : tmap_ ) { agent_.unsubscribe( {_item.first, false} ); }
         }
     };
+
+} // namespace Stomp
 
 #endif // STOMP_FEEDER_H

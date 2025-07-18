@@ -12,8 +12,10 @@
 
 #include <string>
 
+namespace Stomp
+{
     // forward declaration
-    namespace Stomp { class EndPoint; }
+    class EndPoint;
 
     /**
      * @struct Publisher
@@ -29,12 +31,14 @@
         virtual void publish( std::string const& msg ) {}
 
         // explicit destination
-        virtual void publish( Stomp::EndPoint const& dest, nlohmann::json const& js ) = 0;
-        virtual void publish( Stomp::EndPoint const& dest, std::string const& msg ) {};
+        virtual void publish( EndPoint const& dest, nlohmann::json const& js ) = 0;
+        virtual void publish( EndPoint const& dest, std::string const& msg ) {};
 
         // for request/response scenarios
-        virtual void publish_once( Stomp::EndPoint const& dest, nlohmann::json const& js ) = 0;
-        virtual void publish_once( Stomp::EndPoint const& dest, std::string const& msg ) {};
+        virtual void publish_once( EndPoint const& dest, nlohmann::json const& js ) = 0;
+        virtual void publish_once( EndPoint const& dest, std::string const& msg ) {};
     };
+
+} // namespace Stomp
 
 #endif // STOMP_PUBLISHER_H
