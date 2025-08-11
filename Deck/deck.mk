@@ -33,4 +33,4 @@ ToLin: ToLin.o  Deck.o Deal.o
 clean:
 	rm -f $(PROGRAMS) *.o
 
-.PHONY: all
+.PHONY: all clean

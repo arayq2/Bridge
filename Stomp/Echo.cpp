@@ -59,5 +59,5 @@
 
         _servlet.subscribe( {av[2], _isq} );
         _notice.wait();
-return 0;
+        return 0;
     }
