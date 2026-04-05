@@ -1,5 +1,15 @@
 #!/usr/bin/perl
 
+# hex2pbn.pl
+# Deal format transform: HEX -> PBN (GIB)
+
+# Hex Encoding
+#
+# Hex strings are 26 characters, representing 13 bytes, low nybble first.
+# Each byte is a rank, with 2-bit chunks for SHDC, in normal order.
+# Chunk values are seats 0-3, for SWNE, in clockwise order.
+# Thus each 2-bit chunk is a card by position and its location by value.
+
 use strict;
 
 my @Order = qw/ Event Site Date Board West 
@@ -19,6 +29,8 @@ my @Cards = split //, "AKQJT98765432";
 
 sub to_pbn
 {
+    # Predefine all slots, else voids are undef, when we want them empty.
+    # Array levels: First, seats (NESW); Second, suits (SHDC); Third, cards.
     my $Layout = [[[],[],[],[]],[[],[],[],[]],[[],[],[],[]],[[],[],[],[]]];
     my $index  = 0; # ranks: 0 - Ace, 12 - Deuce
     my $suit   = 0; # suits: 0 - Spades, 3 - Clubs

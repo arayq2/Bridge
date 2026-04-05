@@ -1,3 +1,8 @@
+/** ======================================================================+
+ + Copyright @2020-2025 Arjun Ray
+ + Released under MIT License
+ + see https://mit-license.org
+ +========================================================================*/
 
 #include "Deal.h"
 #include "CharBuffer.h"
