@@ -118,6 +118,7 @@ namespace
             {
                 if ( errno == EINTR ) { continue; }
                 on_error( ::strerror( errno ), len );
+                continue; // in case on_error() is non-fatal
             }
             if ( _ns == 0 ) { return false; }
             len -= _ns;

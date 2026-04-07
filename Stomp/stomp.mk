@@ -17,19 +17,19 @@ libstomp.a: $(STOMPOBJS)
 	ar cr libstomp.a $^
 
 Sender: Sender.o StrFile.o libstomp.a
-	$(CXX) -o $@ $^
+	$(CXX) -o $@ $^ -lpthread
 
 ReceiverSync: ReceiverSync.o libstomp.a
-	$(CXX) -o $@ $^
+	$(CXX) -o $@ $^ -lpthread
 
 ReceiverAsync: ReceiverAsync.o libstomp.a
-	$(CXX) -o $@ $^
+	$(CXX) -o $@ $^ -lpthread
 
 Socktest: Socktest.o libstomp.a
-	$(CXX) -o $@ $^
+	$(CXX) -o $@ $^ -lpthread
 
 Echo: Echo.o libstomp.a
-	$(CXX) -o $@ $^
+	$(CXX) -o $@ $^ -lpthread
 
 clean:
 	rm -f $(PROGRAMS) libstomp.a *.o
